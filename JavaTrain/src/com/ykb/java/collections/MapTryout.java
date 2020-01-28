@@ -37,7 +37,8 @@ public class MapTryout {
 			System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
 		}
 
-		Map<Account, Customer> map2 = new HashMap<>();
+		Map<String, Customer> map2 = new HashMap<>();
+
 		Account a1 = new Account();
 		a1.setAccountType(EAccountType.TL);
 		a1.setAmount(1000);

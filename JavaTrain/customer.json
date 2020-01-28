@@ -1,0 +1,12 @@
+{
+	"name": "osman",
+	"surname": "Yaycıoğlu",
+	"username": "osman",
+	"password": "1234a",
+	"accounts": [
+		{
+			"accountType": "TL",
+			"amount": 1000
+		}
+	]
+}
