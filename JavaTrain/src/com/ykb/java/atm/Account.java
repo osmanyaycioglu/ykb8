@@ -30,4 +30,34 @@ public class Account {
 		this.amount = amount;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((this.accountType == null) ? 0 : this.accountType.hashCode());
+		result = (prime * result) + this.amount;
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		Account other = (Account) obj;
+		if (this.accountType != other.accountType) {
+			return false;
+		}
+		if (this.amount != other.amount) {
+			return false;
+		}
+		return true;
+	}
+
 }

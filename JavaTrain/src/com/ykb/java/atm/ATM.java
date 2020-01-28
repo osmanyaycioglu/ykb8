@@ -1,5 +1,6 @@
 package com.ykb.java.atm;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ATM {
@@ -9,10 +10,13 @@ public class ATM {
 		customer.setSurname("Yaycıoğlu");
 		customer.setUsername("osman");
 		customer.setPassword("1234a");
+
 		Account account = new Account();
 		account.setAccountType(EAccountType.TL);
 		account.setAmount(1_000);
 		customer.addAccount(account);
+		MenuFactory factory = new MenuFactory();
+		List<IMenuItem> menu = factory.getMenu();
 		try (Scanner s = new Scanner(System.in);) {
 			System.out.println("username : ");
 			String username = s.next();
@@ -23,31 +27,19 @@ public class ATM {
 				if ((password != null) && password.equals(customer.getPassword())) {
 					System.out.println("Hoş geldin " + customer.getName() + " " + customer.getSurname());
 					atmEnd: while (true) {
-						System.out.println("1-Para Yatır");
-						System.out.println("2-Para Çek");
-						System.out.println("3-Exit");
+						int i = 0;
+						for (i = 0; i < menu.size(); i++) {
+							IMenuItem iMenuItem = menu.get(i);
+							System.out.println((i + 1) + "-" + iMenuItem.menuDesc());
+						}
+						System.out.println((i + 1) + "-Exit");
 						System.out.println("Seçiminiz : ");
 						int nextInt = s.nextInt();
-						switch (nextInt) {
-						case 1: {
-							System.out.println("yatıracağınız para miktarı :");
-							int amount = s.nextInt();
-							Account tlAccount = customer.getAccounts().get(0);
-							int deposit = tlAccount.deposit(amount);
-							System.out.println("Paranız : " + deposit);
-						}
+						if (nextInt < (menu.size() + 1)) {
+							IMenuItem iMenuItem = menu.get(nextInt - 1);
+							iMenuItem.execute(s, customer);
+						} else {
 							break;
-						case 2: {
-							System.out.println("çekeceğiniz para miktarı :");
-							int amount = s.nextInt();
-							Account tlAccount = customer.getAccounts().get(0);
-							int withdraw = tlAccount.withdraw(amount);
-							System.out.println("Paranız : " + withdraw);
-						}
-							break;
-
-						default:
-							break atmEnd;
 						}
 					}
 				}
