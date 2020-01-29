@@ -4,4 +4,5 @@ public interface IFormatter {
 	
 	String format(String str);
 	
+	
 }

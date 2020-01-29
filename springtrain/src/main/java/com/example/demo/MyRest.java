@@ -30,14 +30,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.beans.IFormatter;
 import com.example.demo.beans.NameFormatter;
+import com.example.demo.dao.IEmployeeDAO;
 import com.google.gson.Gson;
 
 @RestController
 public class MyRest {
-	
+
 	@Autowired
 	@Qualifier("isimformat")
 	private IFormatter nf;
+
+	@Autowired
+	private IEmployeeDAO empDao;
 
 	@Autowired
 	@Qualifier("soyisimformat")
@@ -59,27 +63,22 @@ public class MyRest {
 	}
 
 	@GetMapping(path = "/hello4/{isim}/{soyisim}")
-	public String hello4(@PathVariable("isim") String name,@PathVariable("soyisim") String surname) {
+	public String hello4(@PathVariable("isim") String name, @PathVariable("soyisim") String surname) {
 		String formattedName = nf.format(name);
 		String surnameForm = snf.format(surname);
 		return "Hello world " + formattedName + " " + surnameForm;
 	}
 
 	@GetMapping(path = "/hello5/{isim}/{soyisim}")
-	public String hello5(@PathVariable("isim") String name
-						,@PathVariable("soyisim") String surname
-						,@RequestParam("yas") int age
-						,@RequestHeader("boy")int height ) {
-		return "Hello world " + name  + " " + surname + " " + age + " " + height;
+	public String hello5(@PathVariable("isim") String name, @PathVariable("soyisim") String surname,
+			@RequestParam("yas") int age, @RequestHeader("boy") int height) {
+		return "Hello world " + name + " " + surname + " " + age + " " + height;
 	}
 
-	@GetMapping(path = "/hello6/{isim}/{soyisim}"
-			,produces = {MediaType.APPLICATION_XML_VALUE,
-						MediaType.APPLICATION_JSON_VALUE})
-	public Employee hello6(@PathVariable("isim") String name
-						,@PathVariable("soyisim") String surname
-						,@RequestParam("yas") int age
-						,@RequestHeader("boy")int height ) {
+	@GetMapping(path = "/hello6/{isim}/{soyisim}", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public Employee hello6(@PathVariable("isim") String name, @PathVariable("soyisim") String surname,
+			@RequestParam("yas") int age, @RequestHeader("boy") int height) {
 		Employee employee = new Employee();
 		employee.setAge(age);
 		employee.setBoy(height);
@@ -87,33 +86,31 @@ public class MyRest {
 		employee.setSurname(surname);
 		return employee;
 	}
-	
-	@PostMapping(path = "/hello7"
-			,produces = {MediaType.APPLICATION_XML_VALUE,
-						MediaType.APPLICATION_JSON_VALUE}
-			,consumes = {MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_JSON_VALUE})
+
+	@PostMapping(path = "/hello7", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE })
 	public Employee hello7(@Validated @RequestBody Employee emp) {
+		empDao.save(emp);
 		Employee employee = new Employee();
 		employee.setAge(emp.getAge() + 5);
 		employee.setBoy(emp.getBoy() + 10);
 		employee.setName(emp.getName());
 		employee.setSurname(emp.getSurname());
-		
+
 		Gson gson = new Gson();
 		String json = gson.toJson(emp);
 		System.out.println(json);
 
-		try {
-			Files.write(Paths.get("employee.json"), 
-						json.getBytes(), 
-						StandardOpenOption.CREATE);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		try {
+//			Files.write(Paths.get("employee.json"), 
+//						json.getBytes(), 
+//						StandardOpenOption.CREATE);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 
 		return employee;
 	}
-	
 
 }

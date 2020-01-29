@@ -15,8 +15,6 @@ public class ATM {
 	public static void main(final String[] args) {
 		Map<String, Customer> customersMap = new HashMap<>();
 
-		Gson gson = new Gson();
-
 		Customer customer = new Customer();
 		customer.setName("osman");
 		customer.setSurname("Yaycıoğlu");
@@ -28,6 +26,7 @@ public class ATM {
 		account.setAmount(1_000);
 		customer.addAccount(account);
 
+		Gson gson = new Gson();
 		String json = gson.toJson(customer);
 		System.out.println(json);
 
