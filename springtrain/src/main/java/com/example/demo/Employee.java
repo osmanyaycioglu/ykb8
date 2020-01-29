@@ -1,12 +1,21 @@
 package com.example.demo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
+@Entity
 public class Employee {
+	
+	@Id
+	@GeneratedValue
+	private long empId;
+	
 	@Size(max = 50,min = 2,message = "yemek saati")
 	private String name;
 	@Size(max = 50,min = 3)
