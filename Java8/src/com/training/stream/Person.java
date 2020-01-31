@@ -3,6 +3,7 @@ package com.training.stream;
 import java.util.List;
 
 public class Person {
+    private long id;
     private String name;
     private String surname;
     private int age;
@@ -42,6 +43,9 @@ public class Person {
     }
 
     public List<String> getHobbies() {
+        System.out.println("Thread name : " + Thread.currentThread()
+                                                    .getName());
+
         return this.hobbies;
     }
 
@@ -53,6 +57,14 @@ public class Person {
     public String toString() {
         return "Person [name=" + this.name + ", surname=" + this.surname + ", age=" + this.age + ", height="
                 + this.height + ", hobbies=" + this.hobbies + "]";
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 }

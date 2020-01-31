@@ -45,6 +45,8 @@ public class PersonStreamTry5 {
     }
 
     public void pro(final String s) {
+        System.out.println("Thread name : " + Thread.currentThread()
+                                                    .getName());
         CounterHolder ch = this.counterMap.get(s);
         if (ch != null) {
             ch.increase();
