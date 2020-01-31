@@ -1,14 +1,19 @@
 package com.example.demo;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -45,6 +50,12 @@ public class Employee {
 	@Enumerated(EnumType.ORDINAL)
 	private EEmployeeType eEmployeeType = EEmployeeType.AMALE;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "employee")
+	private EmployeeExtra employeeExtra;
+	
+	@OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+	private List<PhoneNumber> phones;
+	
 	public String getName() {
 		return name;
 	}
@@ -80,6 +91,18 @@ public class Employee {
 	}
 	public void seteEmployeeType(EEmployeeType eEmployeeType) {
 		this.eEmployeeType = eEmployeeType;
+	}
+	public List<PhoneNumber> getPhones() {
+		return phones;
+	}
+	public void setPhones(List<PhoneNumber> phones) {
+		this.phones = phones;
+	}
+	public EmployeeExtra getEmployeeExtra() {
+		return employeeExtra;
+	}
+	public void setEmployeeExtra(EmployeeExtra employeeExtra) {
+		this.employeeExtra = employeeExtra;
 	}
 	
 	
